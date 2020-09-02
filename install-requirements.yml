@@ -3,14 +3,14 @@
 
   tasks:
     - file:
-        path:  ../roles
+        path:  roles
         state: absent
 
     - local_action:
-        command ansible-galaxy install -r requirements.yml --roles-path ../roles
+        command ansible-galaxy install -r requirements.yml --roles-path roles
 
     - lineinfile:
-        dest:   ../.gitignore
+        dest:   .gitignore
         regexp: '^\/roles$'
         line:   '/roles'
         state:  present
