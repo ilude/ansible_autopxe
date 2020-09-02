@@ -1,9 +1,6 @@
 - name: Include a play ufw playbook
   import_playbook: ufw.yml
 
-- name: include docker playbook
-  import_playbook: docker.yml
-
 - name: setup development environment
   hosts: all
   remote_user: mike
