@@ -7,11 +7,11 @@
         state: absent
 
     - shell: 
-        cmd: ansible-galaxy install -r requirements.yml --roles-path roles
+        cmd: 'ansible-galaxy install -r requirements.yml --roles-path roles'
         chdir: '{{ playbook_dir }}'
 
     - lineinfile:
-        dest:   .gitignore
+        dest:   '{{ playbook_dir }}/.gitignore'
         regexp: '^\/roles$'
         line:   '/roles'
         state:  present
