@@ -6,6 +6,12 @@
         path:  roles
         state: absent
 
+    - name: Get local dir
+      local_action: shell pwd
+      register: result
+    - name: Debug result
+      debug: var=result
+
     - local_action:
         command ansible-galaxy install -r requirements.yml --roles-path roles
 
