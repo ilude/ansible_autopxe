@@ -3,7 +3,9 @@
   become: yes
   become_method: sudo
   vars:
-    role_path: ../../roles
+    pip_install_packages:
+      - name: docker
+      - name: docker-compose
     docker_edition: 'ce'
     docker_package: "docker-{{ docker_edition }}"
     docker_package_state: present
@@ -16,6 +18,7 @@
     - 'mike'
 
   roles:
+    - geerlingguy.pip
     - geerlingguy.docker 
     
   
