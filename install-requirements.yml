@@ -8,7 +8,7 @@
 
     - shell: 
         cmd: ansible-galaxy install -r requirements.yml --roles-path roles
-        chdir: '{{ playbooks_dir }}'
+        chdir: '{{ playbook_dir }}'
 
     - lineinfile:
         dest:   .gitignore
