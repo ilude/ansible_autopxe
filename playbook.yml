@@ -1,3 +1,6 @@
+- name: include docker playbook
+  import_playbook: docker.yml
+
 - name: Include developement server playbook
   import_playbook: playbooks/development/main.yml
 
