@@ -13,7 +13,7 @@
       debug: var=result
 
     - local_action:
-        command ansible-galaxy install -r requirements.yml --roles-path roles
+        command ansible-galaxy install -r {{playbook_dir}}/requirements.yml --roles-path roles
 
     - lineinfile:
         dest:   .gitignore
