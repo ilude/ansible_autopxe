@@ -6,8 +6,9 @@
         path:  roles
         state: absent
 
-    - shell: ansible-galaxy install -r requirements.yml --roles-path roles
-      chdir: '{{ playbooks_dir }}'
+    - shell: 
+        cmd: ansible-galaxy install -r requirements.yml --roles-path roles
+        chdir: '{{ playbooks_dir }}'
 
     - lineinfile:
         dest:   .gitignore
