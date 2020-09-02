@@ -13,7 +13,7 @@
     docker_install_compose: true
     docker_compose_path: /usr/local/bin/docker-compose
     docker_users:
-    - '{{ ansible_user }}'
+    - '{{ lookup('env', 'USER') }}'
   roles:
     - geerlingguy.docker 
     
