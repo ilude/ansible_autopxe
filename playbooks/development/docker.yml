@@ -3,6 +3,7 @@
   become: yes
   become_method: sudo
   vars:
+    role_path: ../../roles
     docker_edition: 'ce'
     docker_package: "docker-{{ docker_edition }}"
     docker_package_state: present

@@ -1,3 +1,6 @@
+- name: Include a play install-requirements playbook
+  import_playbook: install-requirements.yml
+
 - name: Include developement server playbook
   import_playbook: playbooks/development/main.yml
 
