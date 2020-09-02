@@ -1,0 +1,111 @@
+- name: Include developement server playbook
+  import_playbook: playbooks/development/main.yml
+
+- hosts: pxe
+  remote_user: mike
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - name: Update packages
+      apt: update_cache=yes upgrade=dist
+
+    - name: stop service systemd-resolved, if running
+      systemd:
+        name: systemd-resolved
+        state: stopped
+        enabled: no
+        daemon_reload: yes
+
+    - stat:
+        path: /etc/resolv.conf
+      register: resolv
+
+    - name: Remove symlink
+      when: resolv.stat.islnk is defined and resolv.stat.islnk
+      file:
+        path: /etc/resolv.conf
+        state: absent
+
+    - name: ensure file exists
+      copy:
+        content: "nameserver 9.9.9.9"
+        dest: /etc/resolv.conf
+        force: no
+        group: root
+        owner: root
+        mode: 0555
+
+    - name: "Install dnsmasq"
+      apt:
+        pkg:
+          - dnsmasq
+          - ufw
+        state: present
+
+    - set_fact:
+        eth1_mask: "{{ (ansible_eth1.ipv4.address + '/' + ansible_eth1.ipv4.netmask) | ipaddr('prefix') }}"
+    - set_fact:
+        eth1_cidr: "{{ ansible_eth1.ipv4.network }}/{{ eth1_mask }}"
+
+
+    - name: Configuration IP forwarding
+      sysctl:
+        name: net.ipv4.ip_forward
+        value: '1'
+        state: present
+
+    - name: Add ufw before content
+      blockinfile:
+        path: /etc/ufw/before.rules
+        insertbefore: BOF
+        content: |
+          # NAT table rules
+          *nat
+          :POSTROUTING ACCEPT [0:0]
+          -A POSTROUTING -s {{ eth1_cidr }} -o eth0 -j MASQUERADE
+          COMMIT
+
+    - name: Customize ufw forwarding policy
+      lineinfile:
+        line: "DEFAULT_FORWARD_POLICY=\"ACCEPT\""
+        path: "/etc/default/ufw"
+        regexp: "^DEFAULT_FORWARD_POLICY=\"DROP\""
+
+    - name: Open ufw ports for ssh
+      ufw:
+        rule: allow
+        name: OpenSSH
+
+    - name: open ufw ports for dns
+      ufw:
+        rule: allow
+        interface: eth1
+        direction: in
+        port: '53'
+
+    - name: open ufw udf ports
+      ufw:
+        rule: allow
+        interface: eth1
+        direction: in
+        proto: udp
+        port: "{{ item }}"
+      loop:
+        - '67'
+        - '69'
+
+    - name: open ufw ports for http
+      ufw:
+        rule: allow
+        interface: eth1
+        direction: in
+        proto: tcp
+        port: '80'
+
+
+    - name: enable ufw
+      ufw:
+        state: enabled
+        logging: 'on'
+
