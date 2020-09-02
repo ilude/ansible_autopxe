@@ -2,11 +2,11 @@
   import_playbook: ufw.yml
 
 - name: setup development environment
-- hosts: all
+  hosts: all
   remote_user: mike
   become: yes
   become_method: sudo
-- tasks:
+  tasks:
   - name: Generate random password for code_server 
     set_fact: 
       generated_pass: "{{ lookup('password', '/tmp/code_serv_pass chars=ascii_letters,digits,hexdigits,punctuation') }}"
