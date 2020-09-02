@@ -1,4 +1,8 @@
 - name: setup development environment
+- hosts: all
+  remote_user: mike
+  become: yes
+  become_method: sudo
 
 - name: Include a play install-requirements playbook
   import_playbook: install-requirements.yml
@@ -6,10 +10,6 @@
 - name: Include a play ufw playbook
   import_playbook: ufw.yml
 
-- hosts: all
-  remote_user: mike
-  become: yes
-  become_method: sudo
   tasks:
   - name: Generate random password for code_server 
     set_fact: 
