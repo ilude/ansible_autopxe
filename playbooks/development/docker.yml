@@ -1,0 +1,21 @@
+- name: docker playbook
+  hosts: all
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Install docker
+    docker_edition: 'ce'
+    docker_package: "docker-{{ docker_edition }}"
+    docker_package_state: present
+
+  - name: Start/Enable Docker Service
+    docker_service_state: started
+    docker_service_enabled: true
+    docker_restart_handler_state: restarted
+  
+  - name: 
+    docker_install_compose: true
+    docker_compose_path: /usr/local/bin/docker-compose
+  
+  docker_users:
+  - '{{ ansible_user }}'

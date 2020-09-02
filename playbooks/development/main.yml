@@ -1,6 +1,9 @@
 - name: Include a play ufw playbook
   import_playbook: ufw.yml
 
+- name: include docker playbook
+  import_playbook: docker.yml
+
 - name: setup development environment
   hosts: all
   remote_user: mike
@@ -11,9 +14,9 @@
     set_fact: 
       generated_pass: "{{ lookup('password', '/tmp/code_serv_pass chars=ascii_letters,digits,hexdigits,punctuation') }}"
 
-  - name: install pip requirements
-    pip:
-      requirements: "{{ playbook_dir }}/requirements.txt"
+  # - name: install pip requirements
+  #   pip:
+  #     requirements: "{{ playbook_dir }}/requirements.txt"
 
   - name: Creates directory
     file:
