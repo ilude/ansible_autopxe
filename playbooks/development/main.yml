@@ -1,4 +1,5 @@
 - name: setup development environment
+  import_playbook: install-requirements.yml
   import_playbook: ufw.yml
 
 - hosts: all
