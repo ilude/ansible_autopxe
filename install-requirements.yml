@@ -15,7 +15,7 @@
         line:   '/roles'
         state:  present
 
-- hosts: all
+- hosts: localhost
   become: yes
   become_method: sudo
   vars:
@@ -23,7 +23,7 @@
       - name: docker
       - name: docker-compose
       - name: netaddr
-      
+
   role:
     roles:
     - geerlingguy.pip
