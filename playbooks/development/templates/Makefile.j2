@@ -1,6 +1,6 @@
-PUID := shell(id -u)
-PGID := shell(id -g)
-TZ := shell(cat /etc/timezone)
+PUID := $(shell id -u)
+PGID := $(shell id -g)
+TZ := $(shell cat /etc/timezone)
 
 export PUID
 export PGID
@@ -8,19 +8,24 @@ export TZ
 
 
 start:
-	docker-compose up -d --force-recreate
+        docker-compose up -d --force-recreate
+
+echo:
+        @echo PUID=${PUID}
+        @echo PGUID=${PGID}
+        @echo TZ=${TZ}
 
 up:
-	docker-compose up
+        docker-compose up
 
 down:
-	docker-compose down
+        docker-compose down
 
 pull:
-	docker-compose pull
+        docker-compose pull
 
 logs:
-	docker-compose  logs -f
+        docker-compose  logs -f
 
 restart: down start
 
