@@ -1,5 +1,4 @@
 - hosts: localhost
-
   tasks:
     - file:
         path:  roles
