@@ -11,10 +11,6 @@
     set_fact: 
       generated_pass: "{{ lookup('password', '/tmp/code_serv_pass chars=ascii_letters,digits,hexdigits,punctuation') }}"
 
-  # - name: install pip requirements
-  #   pip:
-  #     requirements: "{{ playbook_dir }}/requirements.txt"
-
   - name: Creates directory
     file:
       path: /apps/development
@@ -47,7 +43,7 @@
       restarted: yes
     register: output
 
-  - debug:
-      var: output
+  # - debug:
+  #     var: output
 
   
