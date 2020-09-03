@@ -24,8 +24,7 @@
       - name: docker-compose
       - name: netaddr
 
-  role:
-    roles:
+  roles:
     - geerlingguy.pip
 
 
