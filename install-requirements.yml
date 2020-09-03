@@ -1,3 +1,4 @@
+
 - hosts: localhost
   tasks:
     - file:
@@ -13,3 +14,18 @@
         regexp: '^\/roles$'
         line:   '/roles'
         state:  present
+
+- hosts: all
+  become: yes
+  become_method: sudo
+  vars:
+    pip_install_packages:
+      - name: docker
+      - name: docker-compose
+      - name: netaddr
+      
+  role:
+    roles:
+    - geerlingguy.pip
+
+

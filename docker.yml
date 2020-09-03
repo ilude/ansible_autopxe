@@ -3,15 +3,6 @@
   become: yes
   become_method: sudo
   vars:
-    pip_install_packages:
-      - name: docker
-        state: absent
-      - name: docker-py
-        state: absent
-      - name: docker
-        state: forcereinstall
-      - name: docker-compose
-        state: forcereinstall
     docker_edition: 'ce'
     docker_package: "docker-{{ docker_edition }}"
     docker_package_state: present
@@ -24,7 +15,6 @@
     - 'mike'
 
   roles:
-    - geerlingguy.pip
     - geerlingguy.docker 
     
   

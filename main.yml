@@ -1,0 +1,14 @@
+- name: include update-system playbook
+  import_playbook: update-system.yml
+
+- name: include pxe playbooks
+  import_playbook: playbooks/pxe/main.yml
+
+- name: include docker playbook
+  import_playbook: docker.yml
+
+- name: Include developement server playbooks
+  import_playbook: playbooks/development/main.yml
+
+
+
